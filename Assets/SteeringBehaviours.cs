@@ -6,6 +6,7 @@ public class SteeringBehaviours : MonoBehaviour {
 	public Vector3 Force, velocity, offsetPursuitOffset;
 	public float MaxSpeed=150f, Mass=1f, overlapRadius = 0.5f; // Speed limiter, objects weight and our overlap radius
 	public GameObject target;
+	public Vector3 SeekTarget;
 	public List<GameObject> tagged  = new List<GameObject>();
 	public bool SeekBool, FleeBool, PursueBool, ArriveBool, OffsetPursuitBool, PathBool;
 
@@ -55,7 +56,7 @@ public class SteeringBehaviours : MonoBehaviour {
 		Vector3 steeringForce = Vector3.zero;
 		if(SeekBool)
 		{
-			Force = Seek(target.transform.position) * 0.8f;
+			Force = Seek(SeekTarget) * 0.8f;
 			if(AccumulateForce(ref steeringForce, Force) == false) //Steeringforce is passed to AccumulateForce, TotalFroce is then calculated and returned to the ref parameter. We also pass in the Force we want to add (notice the line above, where Force = SteeringBehaviour(target) etc
 			{
 				return steeringForce; //return the method, only returning the steeringForce at THIS POINT
@@ -180,6 +181,9 @@ public class SteeringBehaviours : MonoBehaviour {
 		return Arrive (desiredVel);
 		
 	}
+
+
+
 	Vector3 PathFollow()
 	{
 		float distance = (transform.position - path.NextPoint()).magnitude;
@@ -228,4 +232,8 @@ public class SteeringBehaviours : MonoBehaviour {
 		}
 		return tagged.Count;//Return List
 	}
+
+//	public void kill(GameObject player){//Used with Enemy stalkState, wanted to have enemy kill off each of the flock till leader remained
+//		Destroy (player);
+//	}
 }

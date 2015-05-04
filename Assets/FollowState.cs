@@ -10,18 +10,19 @@ public class FollowState : State {//FollowState Inherits from the state class ra
 		
 	}
 	
-	public override void Enter() //override runs over the base class abstract method of the same name (abstract methods can't handle functionality, they are only a blueprint)
+	public override void Enter()
 	{
-			enemy = GameObject.Find ("enemy"); //Find the enemy
-			leader = GameObject.Find ("Leader"); //Find the leader
-			myGameObject.GetComponent<SteeringBehaviours>().target = leader; //and assign target to leader
+		enemy = GameObject.Find ("enemy"); //Find the enemy
+		leader = GameObject.Find ("Leader"); //Find the leader
+		myGameObject.GetComponent<SteeringBehaviours>().SeekTarget= new Vector3(0, 0, 100f); //assign the leader to the target 
+		myGameObject.GetComponent<SteeringBehaviours>().target = leader; //and assign target to leader
 
 		//Toggle SteeringBehaviours
 		myGameObject.GetComponent<SteeringBehaviours>().OffsetPursuitBool = true;
 		Debug.Log("Follow the leader!");
 	}
 	
-	public override void Update() //override runs over the base class abstract method of the same name (abstract methods can't handle functionality, they are only a blueprint)
+	public override void Update()
 	{
 		if (myGameObject.GetComponent<SteeringBehaviours> ().tagged.Count == 0){//If outside the flock, regroup to leader
 			Debug.Log ("Lonely:(");
@@ -35,7 +36,7 @@ public class FollowState : State {//FollowState Inherits from the state class ra
 			float distance = desiredVel.magnitude; //Store length of Vector3 as float 
 			if (distance < 20f) { //and assign target to leader
 				leader = null;
-				myGameObject.GetComponent<StateMachine> ().SwitchState (new ScatterState (myGameObject));
+				myGameObject.GetComponent<StateMachine> ().SwitchState (new ScatterState (myGameObject));// If Enemy enters within 20 units switch states
 			}
 		}
 

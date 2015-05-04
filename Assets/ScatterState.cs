@@ -3,27 +3,26 @@ using System.Collections;
 
 public class ScatterState : State {
 	GameObject enemy;
-	public float changeStateTime, changeStateTimer = 3f; //A very simple change state condition!
+	public float StateTime, StateTimer = 3f; //A very simple change state condition!
 
 	public ScatterState(GameObject myGameObject):base (myGameObject) //constructor takes same argument as State base class constructor
 	{
 		
 	}
 	
-	public override void Enter() //override runs over the base class abstract method of the same name (abstract methods can't handle functionality, they are only a blueprint)
+	public override void Enter() //Override base State classes Enter Method
 	{
 			enemy = GameObject.Find ("enemy"); //Find the leader
 			myGameObject.GetComponent<SteeringBehaviours>().target = enemy; //and assign target to leader
 			myGameObject.GetComponent<SteeringBehaviours> ().FleeBool = true;
 			Debug.Log ("Break for it!");
-
 	}
 	
-	public override void Update() //override runs over the base class abstract method of the same name (abstract methods can't handle functionality, they are only a blueprint)
+	public override void Update()//Override base State classes Update Method
 	{
 		//This is where we calculate stuff, like the condition to transition to the next state
-		changeStateTime += Time.deltaTime;
-		if(changeStateTime >= changeStateTimer)
+		StateTime += Time.deltaTime;
+		if(StateTime >= StateTimer)
 		{
 			myGameObject.GetComponent<StateMachine>().SwitchState (new FollowState(myGameObject));
 		}	

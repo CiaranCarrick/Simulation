@@ -40,7 +40,7 @@ public class CreatePath : MonoBehaviour {
 			if(!IsLastCheckpoint())// While not the last index of point, interate through list
 			{
 
-				Next++;
+				Next++;//Increment next
 			}
 		}
 	}
