@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class GM : MonoBehaviour {
+
 	GameObject leader;
-	public GameObject[] boids;
+	public GameObject[] boids;//List to store all boids
 
 	void Start () 
 	{
@@ -14,7 +15,7 @@ public class GM : MonoBehaviour {
 	
 	void FindBoids()
 	{
-		boids = GameObject.FindGameObjectsWithTag("Boid");
+		boids = GameObject.FindGameObjectsWithTag("Boid");//Fill GameObject array with gameobjects tagged Boid
 	}
 	
 	void BoidsStartState()
