@@ -233,7 +233,7 @@ public class SteeringBehaviours : MonoBehaviour {
 		return tagged.Count;//Return List
 	}
 
-//	public void kill(GameObject player){//Used with Enemy stalkState, wanted to have enemy kill off each of the flock till leader remained
-//		Destroy (player);
-//	}
+	public void kill(GameObject player){//Used with Enemy stalkState, wanted to have enemy kill off each of the flock till leader remained
+		Destroy (player);
+	}
 }
