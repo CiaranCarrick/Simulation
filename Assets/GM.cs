@@ -26,6 +26,7 @@ public class GM : MonoBehaviour {
 			boid.GetComponent<StateMachine>().SwitchState (new FollowState(boid));
 		}
 		leader.GetComponent<StateMachine>().SwitchState (new SearchState(leader));
+		if(enemy!=null)
 		enemy.GetComponent<StateMachine> ().SwitchState (new StalkState(enemy));
 
 
