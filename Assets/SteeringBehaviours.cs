@@ -6,7 +6,7 @@ public class SteeringBehaviours : MonoBehaviour {
 	public Vector3 Force, velocity, offsetPursuitOffset;
 	public float MaxSpeed=150f, Mass=1f, overlapRadius = 0.5f; // Speed limiter, objects weight and our overlap radius
 	public GameObject target;
-	public Vector3 SeekTarget;
+	//public Vector3 SeekTarget;
 	public List<GameObject> tagged  = new List<GameObject>();
 	public bool SeekBool, FleeBool, PursueBool, ArriveBool, OffsetPursuitBool, PathBool;
 
@@ -56,18 +56,22 @@ public class SteeringBehaviours : MonoBehaviour {
 		Vector3 steeringForce = Vector3.zero;
 		if(SeekBool)
 		{
-			Force = Seek(SeekTarget) * 0.8f;
-			if(AccumulateForce(ref steeringForce, Force) == false) //Steeringforce is passed to AccumulateForce, TotalFroce is then calculated and returned to the ref parameter. We also pass in the Force we want to add (notice the line above, where Force = SteeringBehaviour(target) etc
-			{
-				return steeringForce; //return the method, only returning the steeringForce at THIS POINT
+			if(target!=null){
+			Force = Seek(target.transform.position) * 0.8f;
+				if(AccumulateForce(ref steeringForce, Force) == false) //Steeringforce is passed to AccumulateForce, TotalFroce is then calculated and returned to the ref parameter. We also pass in the Force we want to add (notice the line above, where Force = SteeringBehaviour(target) etc
+				{
+					return steeringForce; //return the method, only returning the steeringForce at THIS POINT
+				}
 			}
 		}
 		if(FleeBool)
 		{
+			if(target!=null){
 			Force = Flee(target.transform.position) * 0.6f;
-			if(AccumulateForce(ref steeringForce, Force) == false) //if the code gets this far and Seek is also active, then we are updating steeringForce with not only the Flee Force, but also the Seek Force (assuming there is remaining Force)
-			{
-				return steeringForce; 
+				if(AccumulateForce(ref steeringForce, Force) == false) //if the code gets this far and Seek is also active, then we are updating steeringForce with not only the Flee Force, but also the Seek Force (assuming there is remaining Force)
+				{
+					return steeringForce; 
+				}
 			}
 		}
 		if(ArriveBool)
@@ -80,10 +84,12 @@ public class SteeringBehaviours : MonoBehaviour {
 		}
 		if(PursueBool)
 		{
+			if(target!=null){
 			Force = Pursue(target) * 0.3f;
-			if(AccumulateForce(ref steeringForce, Force) == false)
-			{
-				return steeringForce;
+				if(AccumulateForce(ref steeringForce, Force) == false)
+				{
+					return steeringForce;
+				}
 			}
 		}
 		int taggedCount=0;
@@ -91,9 +97,11 @@ public class SteeringBehaviours : MonoBehaviour {
 			taggedCount = FindBoids (25);//Parameter is the Radius for locating boids
 		}
 		if (OffsetPursuitBool && taggedCount > 0) {
-			Force = OffsetPursuit (offsetPursuitOffset) * 0.6f;
-			if (AccumulateForce (ref steeringForce, Force) == false) {
-				return steeringForce;
+			if(target!=null){
+				Force = OffsetPursuit (offsetPursuitOffset) * 0.6f;
+				if (AccumulateForce (ref steeringForce, Force) == false) {
+					return steeringForce;
+				}
 			}
 		}
 		if(PathBool)
@@ -179,7 +187,6 @@ public class SteeringBehaviours : MonoBehaviour {
 		float lookAhead = distance / MaxSpeed; //the lookAhead is how much we should look in front of our target
 		desiredVel = desiredVel +(lookAhead * target.GetComponent<SteeringBehaviours>().velocity);
 		return Arrive (desiredVel);
-		
 	}
 
 
@@ -206,6 +213,7 @@ public class SteeringBehaviours : MonoBehaviour {
 	{
 		foreach(GameObject boid in tagged)
 		{
+			if(boid!=null){
 			Vector3 toOther = boid.transform.position - transform.position;//Store distance for each boid
 			float distance = toOther.magnitude;
 			toOther.Normalize();
@@ -213,6 +221,7 @@ public class SteeringBehaviours : MonoBehaviour {
 			if(overlap >= 0)
 			{
 				boid.transform.position = boid.transform.position + toOther * overlap;//Repel other agents by toOther and overlap amount
+			}
 			}
 		}
 	}

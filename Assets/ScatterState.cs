@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ScatterState : State {
 	GameObject enemy;
-	public float StateTime, StateTimer = 3f; //A very simple change state condition!
+	public float StateTime, StateTimer = 5f; //A very simple change state condition!
 
 	public ScatterState(GameObject myGameObject):base (myGameObject) //constructor takes same argument as State base class constructor
 	{
